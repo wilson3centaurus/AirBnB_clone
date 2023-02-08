@@ -1,5 +1,7 @@
-https://user-images.githubusercontent.com/110993797/217100424-93eb1f83-20b2-4630-bc75-404181fc889a.png
-https://youtu.be/XRH_8w1DEGI
+![image](https://user-images.githubusercontent.com/110993797/217100424-93eb1f83-20b2-4630-bc75-404181fc889a.png)
+<center>AirBnB clone.</center>
+![image](https://user-images.githubusercontent.com/110993797/217118084-368dd949-53cc-445e-87a4-1b40e005dbd0.png)
+https://m.youtube.com/watch?time_continue=1&v=1mAC9x3aixE&embeds_euri=https%3A%2F%2Fintranet.alxswe.com%2F&source_ve_path=MzY4NDIsMjM4NTE&feature=emb_title
 <center> <h1>HBNB - The Console</h1> </center>
 
 This repository contains the initial stage of a student project to build a clone of the AirBnB website. This stage implements a backend interface, or console, to manage program data. Console commands allow the user to create, update, and destroy objects, as well as manage file storage. Using a system of JSON serialization/deserialization, storage is persistent between sessions.
@@ -10,7 +12,7 @@ This repository contains the initial stage of a student project to build a clone
 
 | Tasks | Files | Description |
 | ----- | ----- | ------ |
-| 0: Authors/README File | [AUTHORS](emmanuelanaedobe@gmail.com) && (2freakinggood@gmail.com)
+| 0: Authors/README File | [AUTHORS]|(emmanuelanaedobe@gmail.com) && (2freakinggood@gmail.com)
 | 1: Pep8 | N/A | All code is pep8 compliant|
 | 2: Unit Testing | [/tests](https://github.com/justinmajetich/AirBnB_clone/tree/dev/tests) | All class-defining modules are unittested |
 | 3. Make BaseModel | [/models/base_model.py](https://github.com/justinmajetich/AirBnB_clone/blob/dev/models/base_model.py) | Defines a parent class to be inherited by all model classes|
