@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 import uuid
 from datetime import datetime
+import models
 """ This module defines a class `BaseModel` """
 
 
@@ -17,9 +18,7 @@ class BaseModel():
 
         if len(kwargs) != 0:
             for key, value in kwargs.items():
-                if key == "__class__":
-                    continue
-                elif key == "updated_at" or key == "created_at":
+                if key == "updated_at" or key == "created_at":
                     self.__dict__[key] = datetime.fromisoformat(value)
                 else:
                     self.__dict__[key] = value
@@ -27,6 +26,7 @@ class BaseModel():
             self.id = str(uuid.uuid4())
             self.created_at = datetime.now()
             self.updated_at = datetime.now()
+            models.storage.new(self)
 
     def __str__(self):
         """ Defines the string representation of the instance """
@@ -39,6 +39,7 @@ class BaseModel():
         """
 
         self.updated_at = datetime.now()
+        models.storage.save()
 
     def to_dict(self):
         """ returns a dictionary containing all
