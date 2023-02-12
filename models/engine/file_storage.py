@@ -1,53 +1,48 @@
 #!/usr/bin/python3
-import uuid
-from datetime import datetime
-import models
-""" This module defines a class `BaseModel` """
+""" This module creates a class `FileStorage` """
+import json
+from models.base_model import BaseModel
+from models.user import User
+from models.state import State
+from models.city import City
+from models.amenity import Amenity
+from models.place import Place
+from models.review import Review
 
 
-class BaseModel():
-    """ defines all common attributes/methods for other classes """
+class FileStorage:
+    """ serializes instances to a JSON file and
+        deserializes JSON file to instances
+    """
 
-    def __init__(self, *args, **kwargs):
-        """Initializes a new instance of BaseModel
+    __file_path = "file.json"
+    __objects = {}
 
-        Args:
-            *args (any): unused
-            **kwargs (dict): key & value pair of attributes
-        """
+    def all(self):
+        """  returns the dictionary `__objects` """
 
-        if len(kwargs) != 0:
-            for key, value in kwargs.items():
-                if key == "updated_at" or key == "created_at":
-                    self.__dict__[key] = datetime.fromisoformat(value)
-                else:
-                    self.__dict__[key] = value
-        else:
-            self.id = str(uuid.uuid4())
-            self.created_at = datetime.now()
-            self.updated_at = datetime.now()
-            models.storage.new(self)
+        return self.__objects
 
-    def __str__(self):
-        """ Defines the string representation of the instance """
+    def new(self, obj):
+        """ sets in `__objects` the `obj` with key `<obj class name>.id` """
 
-        return f"[{self.__class__.__name__}] ({self.id}) {self.__dict__}"
+        key = f"{obj.__class__.__name__}.{ obj.id}"
+        self.__objects[key] = obj
 
     def save(self):
-        """ updates the public instance attribute `updated_at`
-            with the current datetime
-        """
+        """ serializes `__objects` to the JSON file """
+        with open(FileStorage.__file_path, "w", encoding="utf-8") as f:
+            d = {k: v.to_dict() for k, v in self.__objects.items()}
+            json.dump(d, f)
 
-        self.updated_at = datetime.now()
-        models.storage.save()
-
-    def to_dict(self):
-        """ returns a dictionary containing all
-            keys/values of `__dict__` of the instance
-        """
-
-        dict_copy = self.__dict__.copy()
-        dict_copy["__class__"] = self.__class__.__name__
-        dict_copy["created_at"] = self.created_at.isoformat()
-        dict_copy["updated_at"] = self.updated_at.isoformat()
-        return dict_copy
+    def reload(self):
+        """ Reloads the stored objects """
+        try:
+            with open(FileStorage.__file_path, "r", encoding="utf-8") as f:
+                _dict = json.load(f)
+                for obj_dict in _dict.values():
+                    cls_name = obj_dict["__class__"]
+                    del obj_dict["__class__"]
+                    self.new(eval(cls_name)(**obj_dict))
+        except FileNotFoundError:
+            return
